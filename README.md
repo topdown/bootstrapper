@@ -58,13 +58,15 @@ Blueprints support dynamic placeholder replacement. Use these variables in your 
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `{{PROJECT_NAME}}` | Project name as entered | `my-app` |
-| `{{PROJECT_NAME_UPPER}}` | Project name in uppercase | `MY-APP` |
-| `{{PROJECT_NAME_LOWER}}` | Project name in lowercase | `my-app` |
-| `{{PROJECT_NAME_CAMEL}}` | Project name in camelCase | `myApp` |
-| `{{PROJECT_NAME_PASCAL}}` | Project name in PascalCase | `MyApp` |
-| `{{DATE}}` | Current date (YYYY-MM-DD) | `2023-12-01` |
-| `{{YEAR}}` | Current year | `2023` |
+| `{{PROJECT_NAME}}` or `PROJECT_NAME` | Project name as entered | `my-app` |
+| `{{PROJECT_NAME_UPPER}}` or `PROJECT_NAME_UPPER` | Project name in uppercase | `MY-APP` |
+| `{{PROJECT_NAME_LOWER}}` or `PROJECT_NAME_LOWER` | Project name in lowercase | `my-app` |
+| `{{PROJECT_NAME_CAMEL}}` or `PROJECT_NAME_CAMEL` | Project name in camelCase | `myApp` |
+| `{{PROJECT_NAME_PASCAL}}` or `PROJECT_NAME_PASCAL` | Project name in PascalCase | `MyApp` |
+| `{{DATE}}` or `DATE` | Current date (YYYY-MM-DD) | `2023-12-01` |
+| `{{YEAR}}` or `YEAR` | Current year | `2023` |
+
+**Note**: Both formats are supported for backward compatibility. The `{{VARIABLE}}` format is recommended for new blueprints as it's more explicit and less likely to cause conflicts.
 
 ## Configuration
 

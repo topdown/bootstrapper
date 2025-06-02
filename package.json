@@ -2,7 +2,7 @@
   "name": "bootstrapper",
   "displayName": "Bootstrapper",
   "description": "A plugin for VS Code flavored editors that allows you to create a project from blueprint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "topdown",
   "icon": "icon.png",
   "repository": {

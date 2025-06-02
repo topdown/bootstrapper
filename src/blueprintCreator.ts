@@ -343,18 +343,36 @@ export class BlueprintCreator {
 
     private replacePlaceholders(content: string, projectName: string): string {
         const replacements = {
+            // Double curly brace format (new format)
             '{{PROJECT_NAME}}': projectName,
             '{{PROJECT_NAME_UPPER}}': projectName.toUpperCase(),
             '{{PROJECT_NAME_LOWER}}': projectName.toLowerCase(),
             '{{PROJECT_NAME_CAMEL}}': this.toCamelCase(projectName),
             '{{PROJECT_NAME_PASCAL}}': this.toPascalCase(projectName),
             '{{DATE}}': new Date().toISOString().split('T')[0],
-            '{{YEAR}}': new Date().getFullYear().toString()
+            '{{YEAR}}': new Date().getFullYear().toString(),
+            
+            // Single format for backward compatibility (old format)
+            'PROJECT_NAME': projectName,
+            'PROJECT_NAME_UPPER': projectName.toUpperCase(),
+            'PROJECT_NAME_LOWER': projectName.toLowerCase(),
+            'PROJECT_NAME_CAMEL': this.toCamelCase(projectName),
+            'PROJECT_NAME_PASCAL': this.toPascalCase(projectName),
+            'DATE': new Date().toISOString().split('T')[0],
+            'YEAR': new Date().getFullYear().toString()
         };
 
         let result = content;
         for (const [placeholder, value] of Object.entries(replacements)) {
-            result = result.replace(new RegExp(placeholder, 'g'), value);
+            // For the old format, we need to be more careful with replacement to avoid
+            // replacing parts of other identifiers. Use word boundaries.
+            if (placeholder.includes('{{')) {
+                // New format with curly braces - use exact match
+                result = result.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), value);
+            } else {
+                // Old format without braces - use word boundaries to avoid partial matches
+                result = result.replace(new RegExp('\\b' + placeholder + '\\b', 'g'), value);
+            }
         }
 
         return result;

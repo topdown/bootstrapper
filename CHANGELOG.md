@@ -2,6 +2,13 @@
 
 All notable changes to the "bootstrapper" extension will be documented in this file.
 
+## [0.1.1] - 2025-01-10
+
+### Fixed
+- **Template Variables**: Fixed placeholder replacement to support both `{{VARIABLE}}` and `VARIABLE` formats for backward compatibility
+- **Project Creation**: Resolved issue where `PROJECT_NAME_PASCAL` and other variables without double curly braces were not being replaced
+- **Error Prevention**: Added word boundary matching for variables without braces to prevent unintended replacements
+
 ## [0.1.0] - 2025-01-10
 
 ### Added
