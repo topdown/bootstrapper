@@ -1,0 +1,113 @@
+{
+  "name": "bootstrapper",
+  "displayName": "Bootstrapper",
+  "description": "A plugin for VS Code flavored editors that allows you to create a project from blueprint",
+  "version": "0.1.0",
+  "publisher": "topdown",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/topdown/bootstrapper"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:bootstrapper.createFromBlueprint",
+    "onCommand:bootstrapper.saveAsBlueprint",
+    "onCommand:bootstrapper.manageBlueprints"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "bootstrapper.createFromBlueprint",
+        "title": "Create from Blueprint",
+        "category": "Bootstrapper"
+      },
+      {
+        "command": "bootstrapper.saveAsBlueprint",
+        "title": "Save as Blueprint",
+        "category": "Bootstrapper"
+      },
+      {
+        "command": "bootstrapper.manageBlueprints",
+        "title": "Manage Blueprints",
+        "category": "Bootstrapper"
+      }
+    ],
+    "menus": {
+      "file/newFile": [
+        {
+          "command": "bootstrapper.createFromBlueprint",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "bootstrapper.createFromBlueprint"
+        },
+        {
+          "command": "bootstrapper.saveAsBlueprint",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "bootstrapper.manageBlueprints"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "bootstrapper.saveAsBlueprint",
+          "when": "explorerResourceIsFolder",
+          "group": "7_modification"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Bootstrapper",
+      "properties": {
+        "bootstrapper.blueprintsPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path for storing blueprints. If empty, uses extension storage."
+        },
+        "bootstrapper.includeGitIgnore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include .gitignore file when creating blueprints"
+        },
+        "bootstrapper.excludePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "node_modules",
+            ".git",
+            "dist",
+            "build",
+            ".DS_Store"
+          ],
+          "description": "File and folder patterns to exclude when creating blueprints"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "build": "npm run compile",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.96.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {}
+}
