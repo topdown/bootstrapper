@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { BlueprintManager } from './blueprintManager';
 import { BlueprintCreator } from './blueprintCreator';
 import { BlueprintProvider } from './blueprintProvider';
+import { CommunityBlueprintsManager } from './communityBlueprintsManager';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Bootstrapper extension is activating...');
@@ -10,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
         const blueprintManager = new BlueprintManager(context);
         const blueprintCreator = new BlueprintCreator(blueprintManager);
         const blueprintProvider = new BlueprintProvider(blueprintManager);
+        const communityBlueprintsManager = new CommunityBlueprintsManager(blueprintManager);
         
         console.log('Bootstrapper: All classes instantiated successfully');
 
@@ -40,13 +42,22 @@ export function activate(context: vscode.ExtensionContext) {
             }
         );
 
+        const browseCommunityBlueprintsCommand = vscode.commands.registerCommand(
+            'bootstrapper.browseCommunityBlueprints',
+            () => {
+                console.log('Bootstrapper: browseCommunityBlueprints command called');
+                return communityBlueprintsManager.showCommunityBrowser();
+            }
+        );
+
         console.log('Bootstrapper: Commands registered successfully');
 
         // Add commands to subscription
         context.subscriptions.push(
             createFromBlueprintCommand,
             saveAsBlueprintCommand,
-            manageBlueprintsCommand
+            manageBlueprintsCommand,
+            browseCommunityBlueprintsCommand
         );
 
         // Show welcome message on first activation

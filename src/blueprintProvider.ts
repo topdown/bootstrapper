@@ -58,6 +58,13 @@ export class BlueprintProvider {
                     action: 'separator'
                 },
                 { 
+                    label: '$(cloud-download) Browse Community Blueprints',
+                    description: 'Download blueprints from the community repository',
+                    detail: 'Find and download blueprints shared by the community',
+                    blueprint: null as any,
+                    action: 'browse-community'
+                },
+                { 
                     label: '$(folder-opened) Open Blueprints Folder',
                     description: 'Open the folder containing all blueprints',
                     detail: this.blueprintManager.getBlueprintsPath(),
@@ -92,6 +99,9 @@ export class BlueprintProvider {
                     break;
                 case 'manage':
                     await this.showBlueprintActions(selected.blueprint);
+                    break;
+                case 'browse-community':
+                    await vscode.commands.executeCommand('bootstrapper.browseCommunityBlueprints');
                     break;
                 case 'open-folder':
                     await vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(this.blueprintManager.getBlueprintsPath()));

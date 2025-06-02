@@ -1,176 +1,136 @@
 # Bootstrapper
 
-A powerful VS Code extension that allows you to create projects from blueprints and save existing projects as reusable blueprints.
+A VS Code extension that allows you to create projects from blueprints and save your projects as reusable blueprints.
+
+It will work in all VSCode flavored editors. Cursor, WindSurf, etc...
 
 ## Features
 
-- 🚀 **Create Projects from Blueprints**: Quickly scaffold new projects from saved blueprints
-- 💾 **Save Projects as Blueprints**: Turn any project into a reusable template
-- 🏷️ **Tagging System**: Organize blueprints with custom tags
-- 📁 **Smart File Management**: Automatic exclusion of common build artifacts and dependencies
-- 🔧 **Template Variables**: Dynamic placeholder replacement in blueprint files
-- 📂 **File Menu Integration**: Access blueprints directly from the File menu
-- 🎯 **Context Menu Support**: Right-click folders to save them as blueprints
-
-## Getting Started
-
-### Typical Workflow
-
-1. **Save a Project as Blueprint**: Start by creating blueprints from your existing projects
-2. **Use "Manage Blueprints"**: This becomes your main command for both creating projects and managing blueprints
-3. **Bootstrap New Projects**: Select "🚀 Create Project from..." to instantly scaffold new projects
-4. **Iterate and Improve**: Update blueprints as your templates evolve
-
-### Creating Your First Blueprint
-
-1. Open a project folder in VS Code
-2. Right-click the folder in the Explorer and select "Save as Blueprint"
-3. Enter a name, description, and tags for your blueprint
-4. Your blueprint is now saved and ready to use!
-
-### Creating a Project from Blueprint
-
-#### Quick Start (Recommended)
-1. Open Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
-2. Run **"Bootstrapper: Manage Blueprints"**
-3. Select **"🚀 Create Project from [Blueprint Name]"** from the list
-4. Choose where to create the new project
-5. Enter a project name
-6. Your new project will be created and can be opened immediately
-
-#### Alternative Methods
-- **File Menu**: Go to **File** → **Create from Blueprint**
-- **Command Palette**: Run **"Bootstrapper: Create from Blueprint"**
-
-Both alternative methods show the same blueprint selection interface.
+- **Create Projects from Blueprints**: Generate new projects using existing blueprint templates
+- **Save as Blueprint**: Convert any project folder into a reusable blueprint
+- **Blueprint Management**: View, edit, duplicate, export, and delete your blueprints
+- **Community Blueprints**: Browse and download blueprints from the community repository
+- **File Pattern Matching**: Exclude unwanted files and folders using customizable patterns
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `Bootstrapper: Create from Blueprint` | Create a new project from an existing blueprint |
-| `Bootstrapper: Save as Blueprint` | Save the current project or folder as a blueprint |
-| `Bootstrapper: Manage Blueprints` | Open blueprint management interface |
+- **Create from Blueprint**: Create a new project from an existing blueprint
+- **Save as Blueprint**: Save the current project as a blueprint
+- **Manage Blueprints**: View and manage your local blueprints
+- **Browse Community Blueprints**: Browse and download blueprints from the community repository
 
-## Template Variables
+## Community Blueprints
 
-Blueprints support dynamic placeholder replacement. Use these variables in your blueprint files:
+The extension now supports community blueprints through a GitHub repository. You can:
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `{{PROJECT_NAME}}` or `PROJECT_NAME` | Project name as entered | `my-app` |
-| `{{PROJECT_NAME_UPPER}}` or `PROJECT_NAME_UPPER` | Project name in uppercase | `MY-APP` |
-| `{{PROJECT_NAME_LOWER}}` or `PROJECT_NAME_LOWER` | Project name in lowercase | `my-app` |
-| `{{PROJECT_NAME_CAMEL}}` or `PROJECT_NAME_CAMEL` | Project name in camelCase | `myApp` |
-| `{{PROJECT_NAME_PASCAL}}` or `PROJECT_NAME_PASCAL` | Project name in PascalCase | `MyApp` |
-| `{{DATE}}` or `DATE` | Current date (YYYY-MM-DD) | `2023-12-01` |
-| `{{YEAR}}` or `YEAR` | Current year | `2023` |
+1. **Browse Community Blueprints**: Use the `Browse Community Blueprints` command to see available community blueprints
+2. **View Documentation**: Many blueprints include detailed README files with usage instructions and examples
+3. **Download Blueprints**: Download community blueprints directly to your local blueprints collection
+4. **Use Downloaded Blueprints**: Downloaded community blueprints work just like local blueprints
 
-**Note**: Both formats are supported for backward compatibility. The `{{VARIABLE}}` format is recommended for new blueprints as it's more explicit and less likely to cause conflicts.
+### Community Repository
+
+By default, the extension uses the [topdown/Bootstrapper-Blueprints](https://github.com/topdown/Bootstrapper-Blueprints) repository for community blueprints. You can customize this in the settings.
+
+Community blueprints are automatically tagged with the "community" tag when downloaded.
 
 ## Configuration
 
-Access these settings through VS Code Settings (search for "bootstrapper"):
+The extension supports the following configuration options:
 
-### `bootstrapper.blueprintsPath`
-- **Type**: `string`
-- **Default**: `""` (uses extension storage)
-- **Description**: Custom path for storing blueprints. If empty, uses extension storage.
+- **`bootstrapper.blueprintsPath`**: Custom path for storing blueprints. If empty, uses extension storage.
+- **`bootstrapper.includeGitIgnore`**: Include .gitignore file when creating blueprints (default: true)
+- **`bootstrapper.excludePatterns`**: File and folder patterns to exclude when creating blueprints
+- **`bootstrapper.communityRepository`**: GitHub repository for community blueprints (format: owner/repo)
 
-### `bootstrapper.includeGitIgnore`
-- **Type**: `boolean`
-- **Default**: `true`
-- **Description**: Include .gitignore file when creating blueprints
+## Usage
 
-### `bootstrapper.excludePatterns`
-- **Type**: `array`
-- **Default**: `["node_modules", ".git", "dist", "build", ".DS_Store"]`
-- **Description**: File and folder patterns to exclude when creating blueprints
+### Creating a Project from a Blueprint
 
-## Menu Locations
+1. Use the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Run `Bootstrapper: Create from Blueprint`
+3. Select a blueprint from your local collection or browse community blueprints
+4. Choose a target directory
+5. Enter a project name
 
-The extension adds commands to the following locations:
+### Saving a Project as a Blueprint
 
-- **File Menu**: "Create from Blueprint" option
-- **Command Palette**: All blueprint commands
-- **Explorer Context Menu**: "Save as Blueprint" when right-clicking folders
+1. Right-click on a folder in the Explorer
+2. Select `Save as Blueprint`
+3. Enter blueprint details (name, description, tags)
+4. The blueprint will be saved to your local collection
 
-## Blueprint Management
+### Managing Blueprints
 
-The **"Manage Blueprints"** command is your central hub for working with blueprints. It provides:
+1. Use the Command Palette
+2. Run `Bootstrapper: Manage Blueprints`
+3. Create projects, view details, edit metadata, export, duplicate, or delete blueprints
 
-### Primary Actions (Project Creation)
-- 🚀 **Create Project from Blueprint**: One-click project creation from any blueprint
-- Shows blueprint details including creation date, tags, and file count
+### Browsing Community Blueprints
 
-### Management Actions
-- 👁️ **View Details**: See complete file structure and blueprint information
-- ✏️ **Edit Metadata**: Update name, description, and tags
-- 📤 **Export**: Save blueprints as JSON files for sharing
-- 📋 **Duplicate**: Create copies of existing blueprints
-- 🗑️ **Delete**: Remove unwanted blueprints
+1. Use the Command Palette
+2. Run `Bootstrapper: Browse Community Blueprints`
+3. Browse available blueprints (those with README files show "• Has README")
+4. For blueprints with documentation, choose "View README" to see detailed information
+5. Select "Download" to add the blueprint to your local collection
 
-### Utility Actions
-- 📂 **Open Blueprints Folder**: Access the storage directory
-- 🔄 **Refresh**: Reload the blueprint list
+## Blueprint Format
 
-The interface prioritizes project creation while keeping management features easily accessible.
+Blueprints are stored as JSON files with the following structure:
 
-## Use Cases
-
-### Web Development
-- React app templates with TypeScript, ESLint, and Prettier
-- Node.js API boilerplates with authentication
-- Static site generators with common layouts
-
-### Desktop Applications
-- Electron app templates
-- Cross-platform application skeletons
-
-### Documentation
-- README templates with badges and sections
-- Project documentation structures
-
-### Configuration
-- Docker setups with common services
-- CI/CD pipeline templates
-- Development environment configurations
-
-## Tips
-
-1. **Start with "Manage Blueprints"**: Use this as your main entry point - it shows all blueprints with project creation as the primary action
-2. **Organize with Tags**: Use descriptive tags like "react", "typescript", "api", "frontend" to easily find blueprints
-3. **Use Template Variables**: Add placeholders in your files to make blueprints more dynamic
-4. **Exclude Wisely**: Configure exclude patterns to avoid including build artifacts or large dependencies
-5. **Share Blueprints**: Export blueprints to share with your team or across different machines
-6. **Quick Project Creation**: The "🚀 Create Project from..." options make it easy to bootstrap new projects
-7. **Regular Cleanup**: Use the management interface to remove outdated blueprints
-
-## Development
-
-To contribute to this extension:
-
-1. Clone the repository
-2. Run `npm install` to install dependencies
-3. Press `F5` to open a new Extension Development Host window
-4. Test your changes in the development environment
-
-### Building
-
-```bash
-npm run compile
+```json
+{
+  "name": "Example Blueprint",
+  "description": "A sample blueprint description",
+  "id": "unique-blueprint-id",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "tags": ["javascript", "node", "example"],
+  "files": {
+    "package.json": "{ \"name\": \"example\" }",
+    "src/index.js": "console.log('Hello, World!');"
+  },
+  "folders": ["src", "test"]
+}
 ```
 
-### Watching for Changes
+## Contributing to Community Blueprints
 
-```bash
-npm run watch
+To contribute blueprints to the community repository:
+
+1. Fork the [Bootstrapper-Blueprints](https://github.com/topdown/Bootstrapper-Blueprints) repository
+2. Create a folder for your blueprint with both files:
+   - `blueprint.json` - The blueprint definition
+   - `README.md` - Documentation, usage instructions, and examples
+3. Submit a pull request
+4. Once merged, your blueprints will be available to all users
+
+### Recommended Repository Structure
+
 ```
+Bootstrapper-Blueprints/
+├── react-typescript-app/
+│   ├── blueprint.json
+│   └── README.md
+├── node-express-api/
+│   ├── blueprint.json
+│   └── README.md
+└── README.md (main repository README)
+```
+
+### README Template for Blueprints
+
+Each blueprint should include a README.md with:
+
+- **Description**: What the blueprint creates
+- **Prerequisites**: Required tools, extensions, or dependencies
+- **Usage**: How to use the generated project
+- **Structure**: Overview of the generated file structure
+- **Customization**: How to modify the blueprint for different needs
+
+## Requirements
+
+- VS Code 1.96.0 or higher
 
 ## License
 
 This project is licensed under the MIT License.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues and pull requests.

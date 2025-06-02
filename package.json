@@ -2,7 +2,7 @@
   "name": "bootstrapper",
   "displayName": "Bootstrapper",
   "description": "A plugin for VS Code flavored editors that allows you to create a project from blueprint",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "topdown",
   "icon": "icon.png",
   "repository": {
@@ -19,7 +19,8 @@
     "onStartupFinished",
     "onCommand:bootstrapper.createFromBlueprint",
     "onCommand:bootstrapper.saveAsBlueprint",
-    "onCommand:bootstrapper.manageBlueprints"
+    "onCommand:bootstrapper.manageBlueprints",
+    "onCommand:bootstrapper.browseCommunityBlueprints"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -37,6 +38,11 @@
       {
         "command": "bootstrapper.manageBlueprints",
         "title": "Manage Blueprints",
+        "category": "Bootstrapper"
+      },
+      {
+        "command": "bootstrapper.browseCommunityBlueprints",
+        "title": "Browse Community Blueprints",
         "category": "Bootstrapper"
       }
     ],
@@ -57,6 +63,9 @@
         },
         {
           "command": "bootstrapper.manageBlueprints"
+        },
+        {
+          "command": "bootstrapper.browseCommunityBlueprints"
         }
       ],
       "explorer/context": [
@@ -93,6 +102,11 @@
             ".DS_Store"
           ],
           "description": "File and folder patterns to exclude when creating blueprints"
+        },
+        "bootstrapper.communityRepository": {
+          "type": "string",
+          "default": "topdown/Bootstrapper-Blueprints",
+          "description": "GitHub repository for community blueprints (format: owner/repo)"
         }
       }
     }
