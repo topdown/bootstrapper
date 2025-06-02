@@ -1,11 +1,14 @@
 import * as vscode from 'vscode';
 import { BlueprintManager, Blueprint } from './blueprintManager';
+import { BlueprintCreator } from './blueprintCreator';
 
 export class BlueprintProvider {
     private readonly blueprintManager: BlueprintManager;
+    private readonly blueprintCreator: BlueprintCreator;
 
     constructor(blueprintManager: BlueprintManager) {
         this.blueprintManager = blueprintManager;
+        this.blueprintCreator = new BlueprintCreator(blueprintManager);
     }
 
     async showBlueprintManagement(): Promise<void> {
@@ -18,58 +21,139 @@ export class BlueprintProvider {
             }
 
             const items = blueprints.map(blueprint => ({
-                label: `$(file-directory) ${blueprint.name}`,
+                label: `$(rocket) Create Project from "${blueprint.name}"`,
                 description: blueprint.description,
-                detail: `Created: ${new Date(blueprint.createdAt).toLocaleDateString()} | Tags: ${blueprint.tags.join(', ')}`,
-                blueprint
+                detail: `Created: ${new Date(blueprint.createdAt).toLocaleDateString()} | Tags: ${blueprint.tags.join(', ')} | Files: ${Object.keys(blueprint.files).length}`,
+                blueprint,
+                action: 'create'
             }));
 
+            // Add separator
+            items.push({
+                label: '$(chrome-minimize)',
+                description: '',
+                detail: '',
+                blueprint: null as any,
+                action: 'separator'
+            });
+
             // Add management options
-            items.unshift(
+            items.push(
+                ...blueprints.map(blueprint => ({
+                    label: `$(gear) Manage "${blueprint.name}"`,
+                    description: 'View, edit, export, duplicate, or delete this blueprint',
+                    detail: `${Object.keys(blueprint.files).length} files, ${blueprint.folders.length} folders`,
+                    blueprint,
+                    action: 'manage'
+                }))
+            );
+
+            // Add utility options
+            items.push(
+                {
+                    label: '$(chrome-minimize)',
+                    description: '',
+                    detail: '',
+                    blueprint: null as any,
+                    action: 'separator'
+                },
                 { 
                     label: '$(folder-opened) Open Blueprints Folder',
                     description: 'Open the folder containing all blueprints',
                     detail: this.blueprintManager.getBlueprintsPath(),
-                    blueprint: null as any
+                    blueprint: null as any,
+                    action: 'open-folder'
                 },
                 { 
-                    label: '$(refresh) Refresh',
+                    label: '$(refresh) Refresh List',
                     description: 'Refresh the blueprint list',
                     detail: 'Reload blueprints from storage',
-                    blueprint: null as any
+                    blueprint: null as any,
+                    action: 'refresh'
                 }
             );
 
-            const selected = await vscode.window.showQuickPick(items, {
-                placeHolder: 'Select a blueprint to manage or choose an action',
-                matchOnDescription: true,
-                matchOnDetail: true
-            });
+            const selected = await vscode.window.showQuickPick(
+                items.filter(item => item.action !== 'separator'), 
+                {
+                    placeHolder: 'Create a new project from a blueprint, or manage existing blueprints',
+                    matchOnDescription: true,
+                    matchOnDetail: true
+                }
+            );
 
             if (!selected) {
                 return;
             }
 
-            if (selected.label.includes('Open Blueprints Folder')) {
-                await vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(this.blueprintManager.getBlueprintsPath()));
-                return;
+            switch (selected.action) {
+                case 'create':
+                    await this.createProjectFromBlueprint(selected.blueprint);
+                    break;
+                case 'manage':
+                    await this.showBlueprintActions(selected.blueprint);
+                    break;
+                case 'open-folder':
+                    await vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(this.blueprintManager.getBlueprintsPath()));
+                    break;
+                case 'refresh':
+                    await this.showBlueprintManagement();
+                    break;
             }
-
-            if (selected.label.includes('Refresh')) {
-                await this.showBlueprintManagement();
-                return;
-            }
-
-            // Show blueprint actions
-            await this.showBlueprintActions(selected.blueprint);
 
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to show blueprint management: ${error}`);
         }
     }
 
+    private async createProjectFromBlueprint(blueprint: Blueprint): Promise<void> {
+        try {
+            // Get target directory
+            const folderUri = await vscode.window.showOpenDialog({
+                canSelectFolders: true,
+                canSelectFiles: false,
+                canSelectMany: false,
+                openLabel: 'Select Project Location',
+                title: `Create project from "${blueprint.name}" blueprint`
+            });
+
+            if (!folderUri || folderUri.length === 0) {
+                return;
+            }
+
+            // Get project name
+            const projectName = await vscode.window.showInputBox({
+                prompt: `Enter name for your new project (from "${blueprint.name}" blueprint)`,
+                value: blueprint.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+                validateInput: (value) => {
+                    if (!value || value.trim().length === 0) {
+                        return 'Project name is required';
+                    }
+                    if (!/^[a-zA-Z0-9_-]+$/.test(value)) {
+                        return 'Project name can only contain letters, numbers, hyphens, and underscores';
+                    }
+                    return null;
+                }
+            });
+
+            if (!projectName) {
+                return;
+            }
+
+            // Use the BlueprintCreator to create the project
+            await this.blueprintCreator.createProjectFromBlueprint(blueprint, folderUri[0].fsPath, projectName);
+            
+        } catch (error) {
+            vscode.window.showErrorMessage(`Failed to create project from blueprint: ${error}`);
+        }
+    }
+
     private async showBlueprintActions(blueprint: Blueprint): Promise<void> {
         const actions = [
+            {
+                label: '$(rocket) Create Project from This Blueprint',
+                description: 'Create a new project using this blueprint as a template'
+            },
             {
                 label: '$(eye) View Details',
                 description: 'View blueprint information and file structure'
@@ -101,6 +185,9 @@ export class BlueprintProvider {
         }
 
         switch (selected.label) {
+            case '$(rocket) Create Project from This Blueprint':
+                await this.createProjectFromBlueprint(blueprint);
+                break;
             case '$(eye) View Details':
                 await this.showBlueprintDetails(blueprint);
                 break;

@@ -232,7 +232,7 @@ export class BlueprintCreator {
         }
     }
 
-    private async createProjectFromBlueprint(blueprint: Blueprint, targetPath: string, projectName: string): Promise<void> {
+    async createProjectFromBlueprint(blueprint: Blueprint, targetPath: string, projectName: string): Promise<void> {
         const projectPath = path.join(targetPath, projectName);
 
         // Check if directory already exists

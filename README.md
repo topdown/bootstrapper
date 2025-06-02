@@ -14,6 +14,13 @@ A powerful VS Code extension that allows you to create projects from blueprints 
 
 ## Getting Started
 
+### Typical Workflow
+
+1. **Save a Project as Blueprint**: Start by creating blueprints from your existing projects
+2. **Use "Manage Blueprints"**: This becomes your main command for both creating projects and managing blueprints
+3. **Bootstrap New Projects**: Select "🚀 Create Project from..." to instantly scaffold new projects
+4. **Iterate and Improve**: Update blueprints as your templates evolve
+
 ### Creating Your First Blueprint
 
 1. Open a project folder in VS Code
@@ -23,11 +30,19 @@ A powerful VS Code extension that allows you to create projects from blueprints 
 
 ### Creating a Project from Blueprint
 
-1. Go to **File** → **Create from Blueprint** (or use Command Palette)
-2. Select a blueprint from the list
-3. Choose where to create the new project
-4. Enter a project name
-5. Your new project will be created and can be opened immediately
+#### Quick Start (Recommended)
+1. Open Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
+2. Run **"Bootstrapper: Manage Blueprints"**
+3. Select **"🚀 Create Project from [Blueprint Name]"** from the list
+4. Choose where to create the new project
+5. Enter a project name
+6. Your new project will be created and can be opened immediately
+
+#### Alternative Methods
+- **File Menu**: Go to **File** → **Create from Blueprint**
+- **Command Palette**: Run **"Bootstrapper: Create from Blueprint"**
+
+Both alternative methods show the same blueprint selection interface.
 
 ## Commands
 
@@ -80,14 +95,24 @@ The extension adds commands to the following locations:
 
 ## Blueprint Management
 
-Use the "Manage Blueprints" command to:
+The **"Manage Blueprints"** command is your central hub for working with blueprints. It provides:
 
-- 👁️ View blueprint details and file structure
-- ✏️ Edit blueprint metadata (name, description, tags)
-- 📤 Export blueprints to files
-- 📋 Duplicate existing blueprints
-- 🗑️ Delete unwanted blueprints
-- 📂 Open the blueprints storage folder
+### Primary Actions (Project Creation)
+- 🚀 **Create Project from Blueprint**: One-click project creation from any blueprint
+- Shows blueprint details including creation date, tags, and file count
+
+### Management Actions
+- 👁️ **View Details**: See complete file structure and blueprint information
+- ✏️ **Edit Metadata**: Update name, description, and tags
+- 📤 **Export**: Save blueprints as JSON files for sharing
+- 📋 **Duplicate**: Create copies of existing blueprints
+- 🗑️ **Delete**: Remove unwanted blueprints
+
+### Utility Actions
+- 📂 **Open Blueprints Folder**: Access the storage directory
+- 🔄 **Refresh**: Reload the blueprint list
+
+The interface prioritizes project creation while keeping management features easily accessible.
 
 ## Use Cases
 
@@ -111,11 +136,13 @@ Use the "Manage Blueprints" command to:
 
 ## Tips
 
-1. **Organize with Tags**: Use descriptive tags like "react", "typescript", "api", "frontend" to easily find blueprints
-2. **Use Template Variables**: Add placeholders in your files to make blueprints more dynamic
-3. **Exclude Wisely**: Configure exclude patterns to avoid including build artifacts or large dependencies
-4. **Share Blueprints**: Export blueprints to share with your team or across different machines
-5. **Regular Cleanup**: Use the management interface to remove outdated blueprints
+1. **Start with "Manage Blueprints"**: Use this as your main entry point - it shows all blueprints with project creation as the primary action
+2. **Organize with Tags**: Use descriptive tags like "react", "typescript", "api", "frontend" to easily find blueprints
+3. **Use Template Variables**: Add placeholders in your files to make blueprints more dynamic
+4. **Exclude Wisely**: Configure exclude patterns to avoid including build artifacts or large dependencies
+5. **Share Blueprints**: Export blueprints to share with your team or across different machines
+6. **Quick Project Creation**: The "🚀 Create Project from..." options make it easy to bootstrap new projects
+7. **Regular Cleanup**: Use the management interface to remove outdated blueprints
 
 ## Development
 
